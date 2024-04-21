@@ -1,5 +1,6 @@
-package com.neyuq.playermanager.Utils;
+package com.neyuq.oddfishing.Utils;
 
+import com.neyuq.oddfishing.Models.MaterialConfigModel;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -7,12 +8,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ConfigurationManager {
+    private static final HashMap<String, FileConfiguration> configMap = new HashMap<>();
     private static ConfigurationManager instance;
     private final JavaPlugin plugin;
-    private static final HashMap<String, FileConfiguration> configMap = new HashMap<>();
 
     private ConfigurationManager(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -23,6 +27,7 @@ public class ConfigurationManager {
         if (instance == null) new ConfigurationManager(plugin);
         return instance;
     }
+
     public static @NotNull ConfigurationManager getInstance() {
         if (instance == null) throw new Error("plugin has not been initialized, try to put plugin parameter!");
         return instance;
@@ -55,18 +60,33 @@ public class ConfigurationManager {
         }
     }
 
-    /**
-     public void exampleUsage() {
-     FileConfiguration mainConfig = getConfig("config.yml");
-     if (mainConfig != null) {
-     String playerName = mainConfig.getString("player-name");
-     // Do something with playerName...
-     }
+    public void saveConfigs() {
+        if (configMap.isEmpty()) return;
+        for (String fileName : configMap.keySet()) {
+            saveConfig(fileName);
+        }
+    }
 
-     FileConfiguration customConfig = getConfig("custom-config.yml");
-     if (customConfig != null) {
-     // Read or modify customConfig...
-     saveConfig("custom-config.yml"); // Save changes
-     }
-     }*/
+    public MaterialConfigModel parseRewardEntry(Map<String, Object> rewardMap) {
+        try {
+            String materialString = (String) rewardMap.get("material");
+            double probability = (Double) rewardMap.get("probability");
+            return new MaterialConfigModel(materialString, probability);
+        } catch (Exception e) {
+            System.out.println("Error parsing reward entry: " + e.getMessage());
+            return null;
+        }
+    }
+    public List<MaterialConfigModel> parseRewardList(List<?> reward) {
+        List<MaterialConfigModel> result = new ArrayList<>();
+
+        for (Object rewardObject : reward) {
+            if (rewardObject instanceof Map) {
+                assert false;
+                result.add(parseRewardEntry((Map<String, Object>) rewardObject));
+            }
+        }
+        return result;
+    }
+
 }
