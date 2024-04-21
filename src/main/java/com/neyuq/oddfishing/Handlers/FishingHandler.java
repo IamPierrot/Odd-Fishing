@@ -1,27 +1,20 @@
-package com.neyuq.oddfishing.Events;
+package com.neyuq.oddfishing.Handlers;
 
 import com.neyuq.oddfishing.Utils.ConfigurationManager;
 import com.neyuq.oddfishing.Utils.RandomMaterialSelector;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.player.PlayerFishEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class PlayerFishingEvent extends PlayerFishEvent implements Cancellable {
+public class FishingHandler extends PlayerFishEvent {
     private final RandomMaterialSelector randomMaterialSelector = RandomMaterialSelector.getInstance();
     private final ConfigurationManager configurationManager = ConfigurationManager.getInstance();
 
-    public PlayerFishingEvent(@NotNull Player player, @Nullable Entity entity, @NotNull FishHook hookEntity, @Nullable EquipmentSlot hand, @NotNull PlayerFishEvent.State state) {
-        super(player, entity, hookEntity, hand, state);
+    public FishingHandler(PlayerFishEvent event) {
+        super(event.getPlayer(), event.getCaught(), event.getHook(), event.getHand(), event.getState());
     }
 
     public boolean isCaughtFish() {
@@ -33,6 +26,18 @@ public class PlayerFishingEvent extends PlayerFishEvent implements Cancellable {
         Item caughtItem = (Item) getCaught();
 
         Material randomMaterial = randomMaterialSelector.getRandomMaterial();
+        if (Objects.isNull(randomMaterial)) return;
+
+        ItemStack itemStack = new ItemStack(randomMaterial);
+        itemStack.setItemMeta(itemStack.getItemMeta());
+
+        Objects.requireNonNull(caughtItem).setItemStack(itemStack);
+    }
+    public void generateRandomReward(double probability) {
+        if (!isCaughtFish()) return;
+        Item caughtItem = (Item) getCaught();
+
+        Material randomMaterial = randomMaterialSelector.getMaterial(probability);
         if (Objects.isNull(randomMaterial)) return;
 
         ItemStack itemStack = new ItemStack(randomMaterial);

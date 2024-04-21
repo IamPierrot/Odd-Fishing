@@ -1,5 +1,8 @@
 package com.neyuq.oddfishing.Models;
 
+
+import java.util.Map;
+
 public class MaterialConfigModel {
     private final String material;
     private final double probability;

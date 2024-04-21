@@ -12,14 +12,14 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.logging.Logger;
 
-public class PlayerListener implements Listener {
+public class FishingListener implements Listener {
 
     private final CollectionManager collectionManager = CollectionManager.getInstance();
     private final Logger console;
     private final RandomMaterialSelector randomSystem;
 
 
-    public PlayerListener(Logger c) {
+    public FishingListener(Logger c) {
         console = c;
         randomSystem = RandomMaterialSelector.getInstance();
     }
