@@ -1,0 +1,4 @@
+name: OddFishing
+version: '${project.version}'
+main: com.neyuq.oddfishing.OddFishing
+api-version: '1.20'
