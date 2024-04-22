@@ -3,7 +3,6 @@ package com.neyuq.oddfishing.Utils;
 import com.neyuq.oddfishing.Config.FishConfig;
 import com.neyuq.oddfishing.Models.MaterialConfigModel;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -13,6 +12,7 @@ public class RandomMaterialSelector {
     private static final RandomMaterialSelector instance = new RandomMaterialSelector();
     private final FishConfig fishConfig = FishConfig.getInstance();
     private final NavigableMap<Double, Material> materialProbabilities = new TreeMap<>();
+    private final Map<Material, Double> materialMap = new HashMap<>();
     private final double maxRate = 100.0;
     private RandomMaterialSelector() {
         addDefaults();
@@ -44,24 +44,17 @@ public class RandomMaterialSelector {
             return;
         }
         materialProbabilities.put(probability, material);
+        materialMap.put(material, probability);
     }
 
     public synchronized void setMaterial(Material material, double newProbability) {
-        Double oldProbability = getKeyByValue(material);
+        Double oldProbability = materialMap.getOrDefault(material, null);
         if (oldProbability != null) {
             materialProbabilities.remove(oldProbability);
+            materialMap.remove(material);
         }
 
         add(material, newProbability);
-    }
-
-    private Double getKeyByValue(Material value) {
-        for (Map.Entry<Double, Material> entry : materialProbabilities.entrySet()) {
-            if (entry.getValue().equals(value)) {
-                return entry.getKey();
-            }
-        }
-        return null;
     }
 
     private synchronized void addDefaults() {
