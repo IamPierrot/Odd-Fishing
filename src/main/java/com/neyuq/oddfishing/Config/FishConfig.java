@@ -69,8 +69,8 @@ public class FishConfig extends Configuration {
     private MaterialConfigModel parseRewardEntry(Map<String, Object> rewardMap) {
         try {
             String materialString = (String) rewardMap.get("material");
-            double probability = (Double) rewardMap.get("probability");
-            return new MaterialConfigModel(materialString, probability);
+            double probability = (double) rewardMap.get("probability");
+            return MaterialConfigModel.createModel(materialString, probability);
         } catch (Exception e) {
             System.out.println("Error parsing reward entry: " + e.getMessage());
             return null;

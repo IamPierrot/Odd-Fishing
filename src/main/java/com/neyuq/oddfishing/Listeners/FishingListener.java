@@ -14,12 +14,11 @@ import java.util.logging.Logger;
 public class FishingListener implements Listener {
 
     private final Logger console;
-    private final RandomMaterialSelector randomSystem;
+    private final RandomMaterialSelector randomSystem = RandomMaterialSelector.getInstance();
 
 
     public FishingListener(Logger c) {
         console = c;
-        randomSystem = RandomMaterialSelector.getInstance();
     }
 
     @EventHandler(priority = EventPriority.HIGH)

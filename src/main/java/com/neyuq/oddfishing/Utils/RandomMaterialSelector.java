@@ -66,16 +66,16 @@ public class RandomMaterialSelector {
 
     private List<MaterialConfigModel> defaultRewards() {
         List<MaterialConfigModel> defaultReward = new ArrayList<>();
-        defaultReward.add(new MaterialConfigModel(Material.COBBLESTONE.toString(), 70));
-        defaultReward.add(new MaterialConfigModel(Material.DIAMOND.toString(), 10));
-        defaultReward.add(new MaterialConfigModel(Material.GOLD_INGOT.toString(), 12));
-        defaultReward.add(new MaterialConfigModel(Material.IRON_INGOT.toString(), 15));
+        defaultReward.add(MaterialConfigModel.createModel(Material.COBBLESTONE, 70));
+        defaultReward.add(MaterialConfigModel.createModel(Material.DIAMOND, 10));
+        defaultReward.add(MaterialConfigModel.createModel(Material.GOLD_INGOT, 12));
+        defaultReward.add(MaterialConfigModel.createModel(Material.IRON_INGOT, 15));
         return defaultReward;
     }
 
     private void addMaterialFromConfig(List<MaterialConfigModel> rewardConfig) {
         for (MaterialConfigModel material : rewardConfig) {
-           setMaterial(Material.valueOf(material.getMaterial()), material.getProbability());
+           setMaterial(material.getMaterial(), material.getProbability());
         }
     }
 
