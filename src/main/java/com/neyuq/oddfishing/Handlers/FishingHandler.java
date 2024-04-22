@@ -1,6 +1,6 @@
 package com.neyuq.oddfishing.Handlers;
 
-import com.neyuq.oddfishing.Utils.ConfigurationManager;
+import com.neyuq.oddfishing.Config.ConfigurationManager;
 import com.neyuq.oddfishing.Utils.RandomMaterialSelector;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;

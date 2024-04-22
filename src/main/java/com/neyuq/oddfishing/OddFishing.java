@@ -1,9 +1,10 @@
 package com.neyuq.oddfishing;
 
 import com.neyuq.oddfishing.Commands.CommandFish;
+import com.neyuq.oddfishing.Config.FishConfig;
 import com.neyuq.oddfishing.Database.CollectionManager;
 import com.neyuq.oddfishing.Listeners.FishingListener;
-import com.neyuq.oddfishing.Utils.ConfigurationManager;
+import com.neyuq.oddfishing.Config.ConfigurationManager;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,7 +24,6 @@ public final class OddFishing extends JavaPlugin {
 
         // Load Configuration
         configurationManager = ConfigurationManager.getInstance(this);
-        configurationManager.loadConfig("fish-event.yml");
 
         // Add listener and events
         LoadListenerAndEvents();

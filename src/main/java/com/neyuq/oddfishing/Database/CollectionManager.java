@@ -7,7 +7,7 @@ import org.bson.Document;
 import org.bukkit.entity.Player;
 
 public class CollectionManager {
-    private static final String connectionURI = "mongodb+srv://Pierrot:catdog123@neyuq.jyvp28j.mongodb.net/?retryWrites=true&w=majority&appName=NeyuQ";
+    private static final String connectionURI = "mongodb+srv://Pierrot:gKoOGnTKFPHkZwUl@neyuq.jyvp28j.mongodb.net/?retryWrites=true&w=majority&appName=NeyuQ";
     private static final MongoManager manager =  MongoManager.getInstance(connectionURI);
     private static MongoCollection<Document> PlayerCollection;
     private static CollectionManager instance = null;

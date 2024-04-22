@@ -16,9 +16,7 @@ public class CommandFish implements ICommand {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            FileConfiguration config = configManger.getConfig("fish-event.yml");
-            List<?> materialConfig = config.getMapList("reward");
-            List<MaterialConfigModel> materialConfigModels = configManger.parseRewardList(materialConfig);
+            List<MaterialConfigModel> materialConfigModels = fishConfig.getRewardList();
 
             player.sendMessage("===========OddFishing===========");
             for (MaterialConfigModel material : materialConfigModels) {
@@ -27,9 +25,8 @@ public class CommandFish implements ICommand {
             player.sendMessage("===========OddFishing===========");
         } else if (commandSender instanceof ConsoleCommandSender) {
             ConsoleCommandSender logger = (ConsoleCommandSender) commandSender;
-            FileConfiguration config = configManger.getConfig("fish-event.yml");
-            List<?> materialConfig = config.getMapList("reward");
-            List<MaterialConfigModel> materialConfigModels = configManger.parseRewardList(materialConfig);
+
+            List<MaterialConfigModel> materialConfigModels = fishConfig.getRewardList();
 
             logger.sendMessage("===========OddFishing===========");
             for (MaterialConfigModel material : materialConfigModels) {

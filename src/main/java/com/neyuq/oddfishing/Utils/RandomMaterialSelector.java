@@ -1,6 +1,6 @@
 package com.neyuq.oddfishing.Utils;
 
-import com.google.common.util.concurrent.AtomicDouble;
+import com.neyuq.oddfishing.Config.FishConfig;
 import com.neyuq.oddfishing.Models.MaterialConfigModel;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,7 +11,7 @@ import java.util.*;
 public class RandomMaterialSelector {
 
     private static final RandomMaterialSelector instance = new RandomMaterialSelector();
-    private final ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private final FishConfig fishConfig = FishConfig.getInstance();
     private final NavigableMap<Double, Material> materialProbabilities = new TreeMap<>();
     private final double maxRate = 100.0;
     private RandomMaterialSelector() {
@@ -65,16 +65,8 @@ public class RandomMaterialSelector {
     }
 
     private synchronized void addDefaults() {
-        FileConfiguration materialConfig = configurationManager.getConfig("fish-event.yml");
-
-        List<?> rewardConfig = materialConfig.getMapList("reward");
-        if (rewardConfig.isEmpty()) {
-            materialConfig.set("reward", convertRewardsToMapList(defaultRewards()));
-            configurationManager.saveConfig("fish-event.yml");
-        }
-
-        rewardConfig = materialConfig.getMapList("reward");
-        addMaterialFromConfig(rewardConfig);
+        fishConfig.setConfigFile(defaultRewards());
+        addMaterialFromConfig(fishConfig.getRewardList());
 
         setMaterial(null, 60); // Add a chance for no material (optional)
     }
@@ -88,36 +80,11 @@ public class RandomMaterialSelector {
         return defaultReward;
     }
 
-    private List<Map<String, Object>> convertRewardsToMapList(List<MaterialConfigModel> rewards) {
-        List<Map<String, Object>> convertedConfigReward = new ArrayList<>();
-        for (MaterialConfigModel material : rewards) {
-            Map<String, Object> rewardEntry = new HashMap<>();
-            rewardEntry.put("material", material.getMaterial());
-            rewardEntry.put("probability", material.getProbability());
-            convertedConfigReward.add(rewardEntry);
-        }
-        return convertedConfigReward;
-    }
-
-    private void addMaterialFromConfig(List<?> rewardConfig) {
-        for (Object rewardObject : rewardConfig) {
-            if (rewardObject instanceof Map) {
-                // Convert the map to a MaterialConfigModel object
-                MaterialConfigModel reward = configurationManager.parseRewardEntry((Map<String, Object>) rewardObject);
-
-                if (reward != null) {
-                    // Use the reward information (material, probability)
-                    setMaterial(Material.valueOf(reward.getMaterial()), reward.getProbability());
-                }
-            }
+    private void addMaterialFromConfig(List<MaterialConfigModel> rewardConfig) {
+        for (MaterialConfigModel material : rewardConfig) {
+           setMaterial(Material.valueOf(material.getMaterial()), material.getProbability());
         }
     }
-//    private double calculateTotalProbability() {
-//        // This method calculates the sum of all probabilities in the map
-//        AtomicDouble totalProbability = new AtomicDouble(0.0);
-//        materialProbabilities.forEach((probability, material) -> totalProbability.addAndGet(probability));
-//        return totalProbability.get();
-//    }
 
     @Override
     public String toString() {

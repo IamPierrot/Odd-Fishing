@@ -1,6 +1,5 @@
-package com.neyuq.oddfishing.Utils;
+package com.neyuq.oddfishing.Config;
 
-import com.neyuq.oddfishing.Models.MaterialConfigModel;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -8,10 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ConfigurationManager {
     private static final HashMap<String, FileConfiguration> configMap = new HashMap<>();
@@ -65,28 +61,6 @@ public class ConfigurationManager {
         for (String fileName : configMap.keySet()) {
             saveConfig(fileName);
         }
-    }
-
-    public MaterialConfigModel parseRewardEntry(Map<String, Object> rewardMap) {
-        try {
-            String materialString = (String) rewardMap.get("material");
-            double probability = (Double) rewardMap.get("probability");
-            return new MaterialConfigModel(materialString, probability);
-        } catch (Exception e) {
-            System.out.println("Error parsing reward entry: " + e.getMessage());
-            return null;
-        }
-    }
-    public List<MaterialConfigModel> parseRewardList(List<?> reward) {
-        List<MaterialConfigModel> result = new ArrayList<>();
-
-        for (Object rewardObject : reward) {
-            if (rewardObject instanceof Map) {
-                assert false;
-                result.add(parseRewardEntry((Map<String, Object>) rewardObject));
-            }
-        }
-        return result;
     }
 
 }
