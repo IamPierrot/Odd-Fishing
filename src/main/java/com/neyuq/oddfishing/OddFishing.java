@@ -1,8 +1,6 @@
 package com.neyuq.oddfishing;
 
 import com.neyuq.oddfishing.Commands.CommandFish;
-import com.neyuq.oddfishing.Config.FishConfig;
-import com.neyuq.oddfishing.Database.CollectionManager;
 import com.neyuq.oddfishing.Listeners.FishingListener;
 import com.neyuq.oddfishing.Config.ConfigurationManager;
 import org.bukkit.plugin.PluginManager;
@@ -33,7 +31,6 @@ public final class OddFishing extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        CollectionManager.disconnect();
         configurationManager.saveConfigs();
 
         console.log(Level.OFF,"§cPlugin đã sao lưu config và ngắt kết nối với database!");

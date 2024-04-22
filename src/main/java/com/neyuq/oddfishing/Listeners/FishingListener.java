@@ -1,6 +1,5 @@
 package com.neyuq.oddfishing.Listeners;
 
-import com.neyuq.oddfishing.Database.CollectionManager;
 import com.neyuq.oddfishing.Handlers.FishingHandler;
 import com.neyuq.oddfishing.Utils.RandomMaterialSelector;
 import org.bukkit.enchantments.Enchantment;
@@ -14,7 +13,6 @@ import java.util.logging.Logger;
 
 public class FishingListener implements Listener {
 
-    private final CollectionManager collectionManager = CollectionManager.getInstance();
     private final Logger console;
     private final RandomMaterialSelector randomSystem;
 
